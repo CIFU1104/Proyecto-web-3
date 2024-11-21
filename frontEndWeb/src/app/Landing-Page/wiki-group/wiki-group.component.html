@@ -1,314 +1,1400 @@
-<section id="wiki-group" class="wiki-group">
-    <div class="wiki-content">
-        <h1>WikiGroup</h1>
-        <hr>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arrienda tu Finca - Documentación</title>
     
-        <section>
-            <h2>Introducción</h2>
-            <p>
-                La presente documentación corresponde a la segunda entrega del proyecto de desarrollo de una aplicación para la gestión de arrendamientos de propiedades. Este proyecto está diseñado para facilitar la interacción entre dos tipos de usuarios principales: el Usuario Arrendatario, encargado de la gestión de propiedades, y el Usuario Arrendador, enfocado en la búsqueda y arrendamiento de fincas.
-            </p>
-            <p>
-                El objetivo principal de esta segunda entrega es demostrar la integración efectiva entre el backend, desarrollado con JPA, y el frontend, implementado con Angular. En esta fase del proyecto, se han creado y configurado los componentes principales y transversales, se ha establecido la navegación de rutas dentro de la aplicación y se ha asegurado la comunicación con el backend para cumplir con las historias de usuario solicitadas.
-            </p>
-            <p>
-                Aunque aún no se ha implementado un sistema de autenticación, esta entrega se ha centrado en garantizar que las funcionalidades operen correctamente para un usuario ficticio, manteniendo una arquitectura escalable y flexible. La documentación que sigue describe la estructura de la aplicación, los componentes clave, los modelos de datos, los servicios, así como las pruebas realizadas para verificar que cada historia de usuario funcione según lo esperado.
-            </p>
-            <p>
-                Esta entrega sienta las bases para futuras implementaciones, incluyendo las pruebas de carga, la autenticación mediante JWT, y el manejo avanzado de seguridad y errores que se abordarán en la tercera fase del proyecto.
-            </p>
-        </section>
+</head>
+<body>
+
+    <section id="wiki-group" class="wiki-group">
+        <div class="wiki-content">
+            <h1>Arrienda tu Finca - Documentación</h1>
+            <hr>
+            <main>
     
-        <hr>
+                <section id="introduccion">
+                    <h2>1. Introducción</h2>
+                    <p>El proyecto "Arrienda tu Finca" busca digitalizar y simplificar el proceso de arrendamiento de fincas, permitiendo la interacción entre dos perfiles principales: arrendadores y arrendatarios. La plataforma permite publicar fincas, gestionar solicitudes de arrendamiento, realizar seguimientos de pagos y generar contratos de arrendamiento.</p>
+                    <p>Esta documentación describe la arquitectura del sistema, la implementación de la autenticación JWT, las pruebas de interfaz y las pruebas de carga realizadas para garantizar la seguridad y el rendimiento de la aplicación.</p>
+                    <p>El proyecto está desarrollado bajo una arquitectura de tres capas:</p>
+                    <ul>
+                        <li><b>Frontend:</b> construido en Angular para ofrecer una experiencia de usuario dinámica y responsiva.</li>
+                        <li><b>Backend:</b> desarrollado en Java utilizando Spring Boot, con conexión a una base de datos relacional.</li>
+                        <li><b>Base de Datos:</b> MySQL como sistema de gestión de bases de datos para almacenar y gestionar la información del sistema.</li>
+                    </ul>
+                </section>
     
-        <!-- Componente Principal (AppComponent) -->
-        <section id="componente-principal">
-            <h2>Componentes</h2>
-
-            <!-- Componente Principal (AppComponent) -->
-            <div class="componente">
-                <h3>1. Componente Principal (AppComponent)</h3>
-                <p>Este es el componente raíz de la aplicación. Todos los demás componentes son cargados dentro de este. Contiene el "esqueleto" principal de la aplicación, como el menú y las rutas hacia otras vistas.</p>
-                <p><strong>Selector:</strong> <code>&lt;app-root&gt;</code> (Invocado una vez, en el archivo index.html)</p>
-            </div>
-
-            <!-- Componentes de Gestión de Propiedades -->
-            <div class="componente">
-                <h3>2. Componentes de Gestión de Propiedades</h3>
-                <ul>
-                    <li><strong>PropiedadesArrendadorComponent:</strong> Gestiona la vista en la que el Usuario Arrendatario administra sus propiedades. Aquí puede ver, crear, editar o eliminar propiedades.</li>
-                    <li><strong>CrearPropiedadComponent:</strong> Se utiliza específicamente para que el Usuario Arrendatario cree una nueva propiedad.</li>
-                    <li><strong>DetallePropiedadComponent:</strong> Muestra los detalles específicos de una propiedad seleccionada.</li>
-                    <li><strong>EditarPropiedadComponent:</strong> Facilita la edición de las propiedades existentes.</li>
-                </ul>
-            </div>
-
-            <!-- Componentes de Contratos -->
-            <div class="componente">
-                <h3>3. Componentes de Contratos</h3>
-                <ul>
-                    <li><strong>ContratosArrendadorComponent</strong> y <strong>ContratosArrendatarioComponent:</strong> Estos componentes manejan las vistas en las que los usuarios arrendadores y arrendatarios pueden ver y gestionar sus contratos de arrendamiento. Permiten aceptar o rechazar solicitudes y administrar los contratos actuales.</li>
-                </ul>
-            </div>
-
-            <!-- Componentes de Vistas Principales -->
-            <div class="componente">
-                <h3>4. Componentes de Vistas Principales</h3>
-                <ul>
-                    <li><strong>PrincipalArrendadorComponent</strong> y <strong>PrincipalArrendatarioComponent:</strong> Estos son los "paneles de control" de cada tipo de usuario, donde pueden acceder rápidamente a sus acciones principales, como gestionar propiedades o ver contratos.</li>
-                </ul>
-            </div>
-
-            <!-- Componente de Autenticación -->
-            <div class="componente">
-                <h3>5. Componente de Autenticación</h3>
-                <p><strong>LoginRegisterComponent:</strong> Maneja la autenticación (login y registro) de los usuarios, aunque en esta fase de la entrega aún no se implementó la autenticación completa.</p>
-            </div>
-
-            <!-- Componente Menú -->
-            <div class="componente">
-                <h3>6. Componente Menú</h3>
-                <p><strong>MenuComponent:</strong> Representa el menú de navegación de la aplicación. Este componente se muestra en todas las vistas para permitir la navegación entre las diferentes secciones.</p>
-            </div>
-        </section>
-
+                <section id="funcionalidades">
+                    <h2>2. Funcionalidades</h2>
+                    <p>La plataforma "Arrienda tu Finca" ofrece una variedad de funcionalidades para facilitar la interacción entre arrendadores y arrendatarios, y agilizar el proceso de arrendamiento de fincas. Estas funcionalidades se dividen en dos categorías principales: funcionalidades para arrendadores y funcionalidades para arrendatarios.</p>
+                
+                    <h3>Funcionalidades para Arrendadores</h3>
+                    <ul>
+                        <li><b>Gestión de Perfil:</b>
+                            <ul>
+                                <li>Crear y actualizar su perfil con información personal y de contacto.</li>
+                                <li>Subir una foto de perfil para personalizar su cuenta.</li>
+                                <li>Gestionar la información de su cuenta, como la contraseña y la dirección de correo electrónico.</li>
+                            </ul>
+                        </li>
+                        <li><b>Publicación de Fincas:</b>
+                            <ul>
+                                <li>Publicar anuncios de sus fincas disponibles para arrendamiento.</li>
+                                <li>Proporcionar información detallada sobre las fincas, incluyendo:
+                                    <ul>
+                                        <li>Nombre de la finca</li>
+                                        <li>Ubicación (dirección, coordenadas geográficas)</li>
+                                        <li>Tamaño (en hectáreas o metros cuadrados)</li>
+                                        <li>Tipo de finca (ganadera, agrícola, recreativa)</li>
+                                        <li>Características (casa principal, instalaciones, servicios)</li>
+                                        <li>Precio de arrendamiento (por día, semana, mes)</li>
+                                        <li>Fotos de la finca</li>
+                                        <li>Disponibilidad (calendario de fechas disponibles)</li>
+                                    </ul>
+                                </li>
+                                <li>Editar o eliminar anuncios de fincas existentes.</li>
+                            </ul>
+                        </li>
+                        <li><b>Gestión de Solicitudes:</b>
+                            <ul>
+                                <li>Recibir notificaciones de nuevas solicitudes de arrendamiento.</li>
+                                <li>Revisar las solicitudes de arrendamiento, incluyendo la información del arrendatario y las fechas solicitadas.</li>
+                                <li>Aceptar o rechazar las solicitudes de arrendamiento.</li>
+                                <li>Comunicarse con los arrendatarios a través de un sistema de mensajería interno para aclarar dudas o negociar términos.</li>
+                            </ul>
+                        </li>
+                        <li><b>Gestión de Contratos:</b>
+                            <ul>
+                                <li>Generar contratos de arrendamiento automáticamente cuando se acepta una solicitud.</li>
+                                <li>Acceder a los contratos generados en formato digital.</li>
+                                <li>Descargar o imprimir los contratos para su firma.</li>
+                                <li>Llevar un registro de los contratos de arrendamiento, incluyendo el estado del contrato (pendiente, activo, finalizado).</li>
+                            </ul>
+                        </li>
+                        <li><b>Calificación de Arrendatarios:</b>
+                            <ul>
+                                <li>Calificar a los arrendatarios después de finalizar un contrato de arrendamiento.</li>
+                                <li>Proporcionar una calificación y una reseña sobre la experiencia con el arrendatario.</li>
+                                <li>Ayudar a otros arrendadores a tomar decisiones informadas sobre los posibles arrendatarios.</li>
+                            </ul>
+                        </li>
+                        <li><b>Historial de Arrendamientos:</b>
+                            <ul>
+                                <li>Acceder a un historial de todos los arrendamientos de sus fincas.</li>
+                                <li>Ver la información de los arrendatarios, las fechas de arrendamiento y el estado del contrato.</li>
+                                <li>Consultar los pagos recibidos por los arrendamientos.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                
+                    <h3>Funcionalidades para Arrendatarios</h3>
+                    <ul>
+                        <li><b>Gestión de Perfil:</b>
+                            <ul>
+                                <li>Crear y actualizar su perfil con información personal y de contacto.</li>
+                                <li>Subir una foto de perfil para personalizar su cuenta.</li>
+                                <li>Gestionar la información de su cuenta, como la contraseña y la dirección de correo electrónico.</li>
+                            </ul>
+                        </li>
+                        <li><b>Búsqueda de Fincas:</b>
+                            <ul>
+                                <li>Buscar fincas disponibles para arrendamiento utilizando diferentes filtros:
+                                    <ul>
+                                        <li>Ubicación (región, departamento, municipio)</li>
+                                        <li>Tipo de finca (ganadera, agrícola, recreativa)</li>
+                                        <li>Tamaño (en hectáreas o metros cuadrados)</li>
+                                        <li>Precio de arrendamiento (por día, semana, mes)</li>
+                                        <li>Fechas de disponibilidad</li>
+                                        <li>Características (casa principal, instalaciones, servicios)</li>
+                                    </ul>
+                                </li>
+                                <li>Ver la información detallada de cada finca, incluyendo fotos y descripción.</li>
+                                <li>Guardar fincas en una lista de favoritos para acceder a ellas fácilmente.</li>
+                                <li>Contactar al arrendador para solicitar información adicional o negociar términos.</li>
+                            </ul>
+                        </li>
+                        <li><b>Solicitud de Arrendamiento:</b>
+                            <ul>
+                                <li>Enviar solicitudes de arrendamiento a los arrendadores, especificando las fechas de inicio y fin del arrendamiento.</li>
+                                <li>Recibir notificaciones sobre el estado de sus solicitudes (pendiente, aceptada, rechazada).</li>
+                            </ul>
+                        </li>
+                        <li><b>Gestión de Contratos:</b>
+                            <ul>
+                                <li>Acceder a los contratos de arrendamiento en formato digital.</li>
+                                <li>Descargar o imprimir los contratos para su firma.</li>
+                            </ul>
+                        </li>
+                        <li><b>Historial de Arrendamientos:</b>
+                            <ul>
+                                <li>Acceder a un historial de todos sus arrendamientos.</li>
+                                <li>Ver la información de las fincas arrendadas, las fechas de arrendamiento y el estado del contrato.</li>
+                                <li>Realizar pagos de arrendamiento a través de la plataforma (si está implementado).</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
     
-        <hr>
-        <h2>Rutas (Routes)</h2>
-            <p>La configuración de rutas es un elemento esencial en la aplicación Angular, ya que permite la navegación entre las diferentes vistas de la aplicación. Se define mediante el RouterModule y se utilizan en combinación con los componentes para mostrar las diferentes páginas disponibles para los usuarios. La aplicación gestiona dos tipos principales de usuarios, el Usuario Arrendador y el Usuario Arrendatario, y cada uno tiene su propio conjunto de rutas que le permiten acceder a las funcionalidades específicas.</p>
-
-            <h3>Sección de Routes (Enrutamiento) en el Frontend</h3>
-            <p>La configuración de rutas se encuentra en el archivo <code>app-routing.module.ts</code>, que centraliza todas las rutas de la aplicación. El archivo <code>app-routing.module.ts</code> incluye las siguientes secciones:</p>
-
-            <ul>
-                <li><strong>Importaciones:</strong> Se importan los módulos necesarios para el enrutamiento (<code>RouterModule</code> y <code>Routes</code> de <code>&#64;angular/router</code>), así como los componentes que se usarán en las rutas.</li>
-                <li><strong>Constante routes:</strong> Define un arreglo de rutas con el formato <code>&#123; path: 'url', component: Componente &#125;</code>, donde <em>path</em> es la URL y <em>component</em> es el componente a cargar. También permite la navegación con parámetros dinámicos.</li>
-                <li><strong>Módulo AppRoutingModule:</strong> Este módulo importa <code>RouterModule.forRoot(routes)</code> para habilitar el enrutamiento y exporta <code>RouterModule</code> para que esté disponible en toda la aplicación.</li>
-            </ul>
-
-            <h4>Rutas principales de la aplicación</h4>
-            <p>A continuación se detallan las rutas principales de la aplicación y el propósito de cada una:</p>
-
-            <ol>
-                <li>
-                    <h5><strong>Ruta principal (Home)</strong></h5>
-                    <p><strong>Path:</strong> ''<br>
-                    <strong>Componente:</strong> PaginaPrincipalComponent<br>
-                    <strong>Descripción:</strong> Esta ruta carga la página principal de la aplicación. Se activa cuando el usuario accede a la raíz del sitio (es decir, /).</p>
-                </li>
-                <li>
-                    <h5><strong>Ruta de Login</strong></h5>
-                    <p><strong>Path:</strong> 'login'<br>
-                    <strong>Componente:</strong> LoginRegisterComponent<br>
-                    <strong>Descripción:</strong> Carga el componente de login y registro, donde los usuarios pueden autenticarse.</p>
-                </li>
-                <li>
-                    <h5><strong>Rutas para el Arrendador</strong></h5>
-                    <p><strong>Contratos del arrendador:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador/contratos'<br>
-                    <strong>Componente:</strong> ContratosArrendadorComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendador ver los contratos asociados a su cuenta, identificado por <em>idArrendador</em>.</p>
-
-                    <p><strong>Página principal del arrendador:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador'<br>
-                    <strong>Componente:</strong> PrincipalArrendadorComponent<br>
-                    <strong>Descripción:</strong> Carga la vista principal para el arrendador.</p>
-
-                    <p><strong>Gestión de propiedades del arrendador:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador/propiedades'<br>
-                    <strong>Componente:</strong> PropiedadesArrendadorComponent<br>
-                    <strong>Descripción:</strong> Muestra todas las propiedades del arrendador.</p>
-
-                    <p><strong>Crear propiedad:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador/propiedades/crear-propiedad'<br>
-                    <strong>Componente:</strong> CrearPropiedadComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendador crear una nueva propiedad.</p>
-
-                    <p><strong>Detalle de propiedad:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador/propiedades/detalle-propiedad/:idPropiedad'<br>
-                    <strong>Componente:</strong> DetallePropiedadComponent<br>
-                    <strong>Descripción:</strong> Muestra los detalles de una propiedad específica.</p>
-
-                    <p><strong>Editar propiedad:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador/propiedades/editar-propiedad/:idPropiedad'<br>
-                    <strong>Componente:</strong> EditarPropiedadComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendador editar una propiedad existente.</p>
-
-                    <p><strong>Calificar arrendatario:</strong></p>
-                    <p><strong>Path:</strong> 'arrendador/:idArrendador/calificar'<br>
-                    <strong>Componente:</strong> CalificarArrendatarioComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendador calificar a un arrendatario.</p>
-                </li>
-                <li>
-                    <h5><strong>Rutas para el Arrendatario</strong></h5>
-                    <p><strong>Contratos del arrendatario:</strong></p>
-                    <p><strong>Path:</strong> 'arrendatario/:idArrendatario/contratos'<br>
-                    <strong>Componente:</strong> ContratosArrendatarioComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendatario ver los contratos que tiene activos.</p>
-
-                    <p><strong>Página principal del arrendatario:</strong></p>
-                    <p><strong>Path:</strong> 'arrendatario/:idArrendatario'<br>
-                    <strong>Componente:</strong> PrincipalArrendatarioComponent<br>
-                    <strong>Descripción:</strong> Carga la vista principal para el arrendatario.</p>
-
-                    <p><strong>Solicitar arriendo:</strong></p>
-                    <p><strong>Path:</strong> 'solicitar-arriendo/:id'<br>
-                    <strong>Componente (Carga diferida):</strong> SolicitarArriendoComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendatario solicitar el arriendo de una propiedad específica.</p>
-
-                    <p><strong>Calificar arrendador:</strong></p>
-                    <p><strong>Path:</strong> 'arrendatario/:idArrendatario/calificar'<br>
-                    <strong>Componente:</strong> CalificarArrendadorComponent<br>
-                    <strong>Descripción:</strong> Permite al arrendatario calificar al arrendador después de la finalización del contrato.</p>
-                </li>
-                <li>
-                    <h5><strong>Carga diferida (Lazy Loading)</strong></h5>
-                    <p>Una de las rutas utiliza lazy loading, lo cual permite cargar componentes solo cuando son necesarios:</p>
-                    <p><strong>Ruta:</strong> 'solicitar-arriendo/:id'<br>
-                    <strong>Componente:</strong> SolicitarArriendoComponent<br>
-                    <strong>Método:</strong> loadComponent: () => import('./arrendatario/solicitar-arriendo/solicitar-arriendo.component').then(m => m.SolicitarArriendoComponent)<br>
-                    <strong>Descripción:</strong> Esto optimiza el rendimiento de la aplicación, cargando el componente solo cuando el usuario accede a esta ruta.</p>
-                </li>
-            </ol>
-
-            <h3>Sección de Routes (Endpoints API) en el BackEnd</h3>
-
-            <h4>1. ControladorArrendador.java</h4>
-            <ul>
-                <li><strong>POST /api/arrendador/&#123; id &#125;/registrar-propiedad:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Permite al arrendador registrar una nueva propiedad. Los detalles de la propiedad (como nombre, ubicación, características) se envían en un PropiedadDTO, junto con una imagen opcional que se almacena en el servidor.</li>
-                    <li><strong>Descripción:</strong> Registra una propiedad para el arrendador con el ID especificado y guarda una imagen asociada en el servidor.</li>
-                    <li><strong>Request:</strong> Multipart form-data con PropiedadDTO y imagen.</li>
-                    <li><strong>Response:</strong> JSON con la información de la propiedad registrada.</li>
-                </ul>
-                <li><strong>GET /api/arrendador/&#123; id &#125;/imagenes/&#123; nombreImagen &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve la imagen de una propiedad registrada.</li>
-                    <li><strong>Descripción:</strong> Busca la imagen en el servidor y la devuelve como un array de bytes.</li>
-                    <li><strong>Response:</strong> Array de bytes que representa la imagen.</li>
-                </ul>
-                <li><strong>GET /api/arrendador/&#123; id &#125;/propiedades:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve todas las propiedades asociadas al arrendador.</li>
-                    <li><strong>Descripción:</strong> Recupera las propiedades de un arrendador específico.</li>
-                    <li><strong>Response:</strong> Lista de propiedades en formato JSON.</li>
-                </ul>
-                <li><strong>PUT /api/arrendador/&#123; id &#125;/modificar-propiedad/&#123; propId &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Modifica los detalles de una propiedad existente.</li>
-                    <li><strong>Descripción:</strong> Permite actualizar los datos de una propiedad previamente registrada por el arrendador.</li>
-                    <li><strong>Request:</strong> JSON con los detalles de la propiedad.</li>
-                    <li><strong>Response:</strong> JSON con la información actualizada de la propiedad.</li>
-                </ul>
-                <li><strong>GET /api/arrendador/&#123; id &#125;/propiedad/&#123; propiedadId &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Muestra el detalle de una propiedad específica.</li>
-                    <li><strong>Descripción:</strong> Devuelve la información detallada de una propiedad.</li>
-                    <li><strong>Response:</strong> Detalles de la propiedad en JSON.</li>
-                </ul>
-                <li><strong>GET /api/arrendador/&#123; id &#125;/mis-contratos:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve todos los contratos del arrendador.</li>
-                    <li><strong>Descripción:</strong> Muestra los contratos asociados al arrendador.</li>
-                    <li><strong>Response:</strong> Lista de contratos en JSON.</li>
-                </ul>
-                <li><strong>PUT /api/arrendador/&#123; id &#125;/aceptar-contrato/&#123; contratoId &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Acepta un contrato de arriendo.</li>
-                    <li><strong>Descripción:</strong> Permite al arrendador aceptar un contrato que estaba pendiente.</li>
-                    <li><strong>Response:</strong> Detalles del contrato aceptado.</li>
-                </ul>
-                <li><strong>PUT /api/arrendador/&#123; id &#125;/rechazar-contrato/&#123; contratoId &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Rechaza un contrato de arriendo.</li>
-                    <li><strong>Descripción:</strong> Permite al arrendador rechazar un contrato.</li>
-                    <li><strong>Response:</strong> Detalles del contrato rechazado.</li>
-                </ul>
-            </ul>
-
-            <h4>2. ControladorArrendatario.java</h4>
-            <ul>
-                <li><strong>POST /api/arrendatario/&#123; id &#125;/solicitar-arriendo/&#123; idPropiedad &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Permite al arrendatario solicitar el arriendo de una propiedad.</li>
-                    <li><strong>Descripción:</strong> El arrendatario puede solicitar el arriendo de una propiedad mediante un ContratoDTO.</li>
-                    <li><strong>Request:</strong> JSON con los detalles del contrato.</li>
-                    <li><strong>Response:</strong> JSON con la información del contrato registrado.</li>
-                </ul>
-                <li><strong>GET /api/arrendatario/&#123; id &#125;/mis-contratos:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve todos los contratos del arrendatario.</li>
-                    <li><strong>Descripción:</strong> Muestra los contratos que el arrendatario tiene asociados.</li>
-                    <li><strong>Response:</strong> Lista de contratos en formato JSON.</li>
-                </ul>
-            </ul>
-
-            <h4>3. ControladorCalificacion.java</h4>
-            <ul>
-                <li><strong>POST /api/calificaciones/arrendador/&#123; id &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Permite calificar a un arrendador.</li>
-                    <li><strong>Descripción:</strong> El usuario puede calificar a un arrendador con una puntuación numérica.</li>
-                    <li><strong>Request:</strong> Calificación en formato Double.</li>
-                    <li><strong>Response:</strong> JSON con el resultado de la calificación.</li>
-                </ul>
-                <li><strong>POST /api/calificaciones/arrendatario/&#123; id &#125;:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Permite calificar a un arrendatario.</li>
-                    <li><strong>Descripción:</strong> El usuario puede calificar a un arrendatario con una puntuación numérica.</li>
-                    <li><strong>Request:</strong> Calificación en formato Float.</li>
-                    <li><strong>Response:</strong> JSON con el resultado de la calificación.</li>
-                </ul>
-            </ul>
-
-            <h4>4. ControladorGetAll.java</h4>
-            <ul>
-                <li><strong>GET /api/get-propiedades:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve todas las propiedades registradas en la plataforma.</li>
-                    <li><strong>Descripción:</strong> Recupera todas las propiedades disponibles sin filtrar por usuario.</li>
-                    <li><strong>Response:</strong> Lista de propiedades en JSON.</li>
-                </ul>
-                <li><strong>GET /api/get-arrendadores:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve todos los arrendadores registrados.</li>
-                    <li><strong>Descripción:</strong> Recupera la lista completa de arrendadores en la plataforma.</li>
-                    <li><strong>Response:</strong> Lista de arrendadores en JSON.</li>
-                </ul>
-                <li><strong>GET /api/get-arrendatarios:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Devuelve todos los arrendatarios registrados.</li>
-                    <li><strong>Descripción:</strong> Recupera la lista completa de arrendatarios en la plataforma.</li>
-                    <li><strong>Response:</strong> Lista de arrendatarios en JSON.</li>
-                </ul>
-            </ul>
-
-            <h4>5. ControladorLogin.java</h4>
-            <ul>
-                <li><strong>POST /api/iniciar-sesion:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Inicia sesión para un usuario arrendador o arrendatario.</li>
-                    <li><strong>Descripción:</strong> Verifica las credenciales del usuario y redirige a la ruta adecuada según su tipo (arrendador o arrendatario).</li>
-                    <li><strong>Request:</strong> JSON con las credenciales de inicio de sesión (LoginDTO).</li>
-                    <li><strong>Response:</strong> URL de redirección al perfil del usuario.</li>
-                </ul>
-            </ul>
-
-            <h4>6. ControladorRegistro.java</h4>
-            <ul>
-                <li><strong>POST /api/crear-cuenta:</strong></li>
-                <ul>
-                    <li><strong>Funcionalidad:</strong> Registra un nuevo usuario.</li>
-                    <li><strong>Descripción:</strong> Crea un nuevo usuario en la plataforma, verificando si el correo ya está registrado.</li>
-                    <li><strong>Request:</strong> JSON con los detalles del nuevo usuario (RegistroDTO).</li>
-                    <li><strong>Response:</strong> JSON con los detalles del usuario registrado o un mensaje de error.</li>
-                </ul>
-            </ul>
-
-        <hr>
+                <section id="jwt">
+                    <h2>3. Implementación de JWT</h2>
+                
+                    <p>La seguridad es un aspecto crucial en "Arrienda tu Finca". Para garantizar la autenticación robusta de usuarios y la protección de la información sensible, se ha implementado la autenticación JWT (JSON Web Tokens). JWT es un estándar abierto (RFC 7519) que define una forma compacta y autocontenida para transmitir información de forma segura entre partes como un objeto JSON. </p>
+                
+                    <p>En lugar de utilizar sesiones tradicionales del lado del servidor, que pueden ser vulnerables a ataques y presentan desafíos de escalabilidad, JWT permite una autenticación sin estado. Esto significa que el servidor no necesita almacenar información de sesión, lo que facilita la escalabilidad y el mantenimiento de la aplicación.</p>
+                
+                    <h3>¿Cómo funciona JWT en "Arrienda tu Finca"?</h3>
+                
+                    <ol>
+                        <li><b>Inicio de sesión:</b> Cuando un usuario inicia sesión con sus credenciales válidas (correo electrónico y contraseña), el backend genera un token JWT. Este token contiene información sobre el usuario, como su ID, rol (arrendador o arrendatario) y cualquier otra información relevante para la autorización.</li>
+                        <li><b>Envío del token:</b> El token JWT se envía al cliente en la respuesta de la solicitud de inicio de sesión, generalmente dentro del cuerpo de la respuesta HTTP o en una cabecera específica.</li>
+                        <li><b>Almacenamiento del token:</b> El cliente (el navegador web) almacena el token JWT de forma segura, generalmente en el almacenamiento local (localStorage) o en una cookie HttpOnly. Esto permite que el token se mantenga de forma persistente entre diferentes sesiones del usuario.</li>
+                        <li><b>Inclusión del token en las solicitudes:</b> En cada solicitud posterior a recursos protegidos del backend, el cliente incluye el token JWT en la cabecera <code>Authorization</code> de la solicitud HTTP. Generalmente se utiliza el formato "Bearer [token JWT]", donde "Bearer" es el esquema de autenticación.</li>
+                        <li><b>Validación del token:</b> El backend intercepta la solicitud, extrae el token JWT de la cabecera <code>Authorization</code> y lo valida. La validación incluye:
+                            <ul>
+                                <li>Verificar la firma del token para asegurarse de que no ha sido modificado.</li>
+                                <li>Verificar que el token no ha expirado.</li>
+                                <li>Extraer la información del usuario del token, como el ID y el rol.</li>
+                            </ul>
+                            Si el token es válido, se concede el acceso al recurso solicitado. En caso contrario, se devuelve un error de autenticación (generalmente un código de estado HTTP 401 No autorizado).</li>
+                    </ol>
+                
+                    <p>Este proceso garantiza que solo los usuarios autenticados con tokens JWT válidos puedan acceder a las funcionalidades protegidas de la aplicación. Además, al ser sin estado, la aplicación puede escalar fácilmente sin necesidad de gestionar sesiones en el servidor.</p>
+                
+                    <h3>Componentes de la Implementación JWT</h3>
+                
+                    <p>Para la implementación de JWT en "Arrienda tu Finca", se han utilizado las siguientes clases y componentes:</p>
+                
+                    <ul>
+                        <li><b>SecurityConfig:</b> 
+                            <ul>
+                                <li>Clase principal que configura la seguridad de la aplicación utilizando Spring Security.</li>
+                                <li>Define las rutas que requieren autenticación (rutas protegidas) y las que son públicas (rutas a las que se puede acceder sin autenticación).</li>
+                                <li>Configura el filtro <code>JWTAuthenticationFilter</code> para la autenticación JWT, que se encarga de interceptar las solicitudes y validar los tokens.</li>
+                                <li>Define el <code>JwtAuthEntryPoint</code> para manejar los errores de autenticación, que se encarga de devolver una respuesta de error al cliente cuando la autenticación falla.</li>
+                                <li>Configura el <code>PasswordEncoder</code> para el cifrado de contraseñas, que se utiliza para cifrar las contraseñas de los usuarios antes de almacenarlas en la base de datos.</li>
+                                <li>Deshabilita la protección CSRF (Cross-Site Request Forgery) ya que JWT, al no usar cookies de sesión, no es vulnerable a este tipo de ataque.</li>
+                            </ul>
+                        </li>
+                        <li><b>JWTAuthenticationFilter:</b>
+                            <ul>
+                                <li>Filtro que se ejecuta para cada solicitud HTTP.</li>
+                                <li>Intercepta las solicitudes y extrae el token JWT de la cabecera <code>Authorization</code>.</li>
+                                <li>Valida el token JWT utilizando <code>JWTTokenService</code>.</li>
+                                <li>Si el token es válido, obtiene los detalles del usuario (ID, roles, etc.) del token.</li>
+                                <li>Crea un objeto <code>UsernamePasswordAuthenticationToken</code> con los detalles del usuario y lo autentica en el contexto de Spring Security, permitiendo el acceso a los recursos protegidos.</li>
+                            </ul>
+                        </li>
+                        <li><b>JwtAuthEntryPoint:</b>
+                            <ul>
+                                <li>Clase que implementa <code>AuthenticationEntryPoint</code> de Spring Security.</li>
+                                <li>Se encarga de manejar los errores de autenticación, como cuando se intenta acceder a un recurso protegido sin un token JWT válido o con un token expirado.</li>
+                                <li>Personaliza la respuesta de error que se envía al cliente, generalmente un código de estado HTTP 401 (No autorizado) y un mensaje de error descriptivo.</li>
+                            </ul>
+                        </li>
+                        <li><b>JWTTokenService:</b>
+                            <ul>
+                                <li>Clase responsable de generar y validar los tokens JWT.</li>
+                                <li>Utiliza la librería <code>jjwt</code> para firmar y verificar los tokens, garantizando su integridad y autenticidad.</li>
+                                <li>Define la clave secreta utilizada para firmar los tokens, que debe mantenerse segura y confidencial.</li>
+                                <li>Define el tiempo de expiración de los tokens, después del cual se consideran inválidos.</li>
+                                <li>Proporciona métodos para extraer la información del usuario del token JWT, como el ID, el rol y otras claims (reclamaciones) personalizadas.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                
+                    <h3>Código de las Clases</h3>
+                
+                    <p>A continuación se muestra el código de las clases involucradas en la implementación de JWT:</p>
+                
+                    <h4>SecurityConfig</h4>
+                    <pre><code class="language-java">package com.example.ProyectoWeb.config;
+                
+                import org.springframework.beans.factory.annotation.Autowired;
+                import org.springframework.context.annotation.Bean;
+                import org.springframework.context.annotation.Configuration;   
+                
+                import org.springframework.security.authentication.AuthenticationManager;
+                import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+                import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+                import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+                import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;   
+                
+                import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;   
+                
+                import org.springframework.security.crypto.password.PasswordEncoder;
+                import org.springframework.security.web.SecurityFilterChain;   
+                
+                import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+                
+                &#64;Configuration
+                &#64;EnableWebSecurity
+                public class SecurityConfig &#123;
+                    
+                    &#64;Autowired
+                    private JwtAuthEntryPoint jwtAuthEntryPoint;
+                
+                    &#64;Bean
+                    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception &#123;
+                        http.csrf(AbstractHttpConfigurer::disable)
+                            .authorizeHttpRequests(requests   
+                -&gt; requests
+                                .requestMatchers("/api/**").permitAll() 
+                                .anyRequest().authenticated() 
+                            ).exceptionHandling(exception -&gt; exception.authenticationEntryPoint(jwtAuthEntryPoint));
+                        http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);   
+                
+                        return http.build();   
+                
+                    &#125;
+                    &#64;Bean
+                    PasswordEncoder passwordEncoder()
+                    &#123;
+                        return new BCryptPasswordEncoder();
+                    &#125;
+                    &#64;Bean
+                    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception
+                    &#123;
+                        return authenticationConfiguration.getAuthenticationManager();   
+                
+                    &#125;
+                    &#64;Bean
+                    public JWTAuthenticationFilter jwtAuthenticationFilter()
+                    &#123;
+                        return new JWTAuthenticationFilter();
+                    &#125;
+                &#125;
+                </code></pre>
+                
+                    <h4>JWTAuthenticationFilter</h4>
+                    <pre><code class="language-java">package com.example.ProyectoWeb.config;
+                
+                import java.io.IOException;
+                
+                import org.springframework.beans.factory.annotation.Autowired;
+                import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;   
+                
+                import org.springframework.security.core.context.SecurityContextHolder;   
+                
+                import org.springframework.security.core.userdetails.UserDetails;
+                import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+                import org.springframework.web.filter.OncePerRequestFilter;
+                
+                import jakarta.servlet.FilterChain;
+                import jakarta.servlet.ServletException;
+                import jakarta.servlet.http.HttpServletRequest;
+                import jakarta.servlet.http.HttpServletResponse;
+                
+                public class   
+                    JWTAuthenticationFilter extends OncePerRequestFilter   
+                    &#123;
+                
+                    &#64;Autowired
+                    private JWTTokenService jwtTokenService;
+                
+                    &#64;Autowired
+                    private CustomUserDetailsService customUserDetailsService;
+                
+                    private static final String HEADER = "Authorization";
+                    private static final String PREFIX = "Bearer ";
+                
+                    &#64;Override
+                    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException,   
+                    IOException 
+                    &#123;
+                        String token = getJWT(request);
+                        if   
+                (token != null &amp;&amp; jwtTokenService.validarToken(token))
+                        &#123;
+                            String id = jwtTokenService.getUserId(token);
+                            UserDetails userDetails = customUserDetailsService.loadUserByUsername(id);
+                            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
+                            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                            SecurityContextHolder.getContext().setAuthentication(authToken);
+                        &#125;
+                        filterChain.doFilter(request, response);   
+                
+                    &#125;
+                    
+                    private String getJWT(HttpServletRequest request) &#123;
+                        String authHeader = request.getHeader(HEADER);   
+                
+                        System.out.println("\nHeader: " + authHeader);
+                        if(authHeader != null &amp;&amp; authHeader.startsWith(PREFIX))
+                        &#123;
+                            return authHeader.replace(PREFIX, "");
+                        &#125;
+                        return null; 
+                    &#125;
+                    
+                &#125;
+                </code></pre>
+                
+                    <h4>JwtAuthEntryPoint</h4>
+                    <pre><code class="language-java">package com.example.ProyectoWeb.config;
+                
+                import java.io.IOException;
+                
+                import org.springframework.security.core.AuthenticationException;
+                import org.springframework.security.web.AuthenticationEntryPoint;   
+                
+                import org.springframework.stereotype.Component;
+                
+                import jakarta.servlet.ServletException;
+                import jakarta.servlet.http.HttpServletRequest;
+                import jakarta.servlet.http.HttpServletResponse;
+                
+                &#64;Component
+                public class JwtAuthEntryPoint implements AuthenticationEntryPoint &#123;
+                
+                    &#64;Override
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)   
+                throws IOException,ServletException&#123;
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No está autorizado");   
+                
+                    &#125;
+                    
+                &#125;
+                </code></pre>
+                
+                    <h4>JWTTokenService</h4>
+                    <pre><code class="language-java">package com.example.ProyectoWeb.config;
+                
+                import java.security.Key;
+                import java.util.ArrayList;
+                import java.util.Collection;
+                import java.util.Date;
+                import java.util.stream.Collectors;   
+                
+                
+                import org.springframework.security.core.GrantedAuthority;
+                import org.springframework.stereotype.Component;
+                
+                import com.fasterxml.jackson.databind.ObjectMapper;
+                
+                import io.jsonwebtoken.Claims;
+                import io.jsonwebtoken.Jwts;
+                import io.jsonwebtoken.SignatureAlgorithm;   
+                
+                import io.jsonwebtoken.security.Keys;   
+                
+                
+                &#64;Component
+                public class JWTTokenService &#123;
+                
+                    private long jwtExpiration = 99999999;
+                    private Key jwtKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);; 
+                
+                    public String generarToken(int id, String userType) &#123;
+                
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        String userID = "";
+                        try &#123;
+                            userID = objectMapper.writeValueAsString(id); 
+                        &#125; catch (Exception e) &#123;
+                            e.printStackTrace();
+                        &#125;
+                
+                        Date now = new Date();
+                        Date expiryDate = new Date(now.getTime() + jwtExpiration); 
+                
+                        Collection&lt;? extends GrantedAuthority&gt; authorities = new ArrayList&lt;&gt;(); 
+                
+                        return Jwts.builder()
+                            .setSubject(userID) 
+                            .setIssuedAt(now) 
+                            .setExpiration(expiryDate)
+                            .claim("userType", userType) 
+                            .claim("authorities", authorities.stream()
+                                .map(GrantedAuthority::getAuthority)
+                                .collect(Collectors.toList())) 
+                            .signWith(jwtKey, SignatureAlgorithm.HS512) 
+                            .compact(); 
+                    &#125;
+                
+                    public String getUserId(String jwtToken)&#123;
+                        System.out.println("\nsubject: "+decodificarToken(jwtToken).getSubject());
+                        return decodificarToken(jwtToken).getSubject();
+                    &#125;
+                    public Date getFechaExpiracion(String jwtToken)&#123;
+                        return decodificarToken(jwtToken).getExpiration();
+                    &#125;
+                    
+                    public String getUserType(String jwtToken) &#123;
+                        return decodificarToken(jwtToken).get("userType", String.class); 
+                    &#125;
+                
+                    public Claims decodificarToken(String jwtToken) &#123;
+                
+                        return Jwts.parserBuilder()
+                            .setSigningKey(jwtKey)
+                            .build()
+                            .parseClaimsJws(jwtToken)
+                            .getBody();
+                    &#125;
+                    public boolean validarToken(String token)
+                    &#123;
+                        try
+                        &#123;
+                            decodificarToken(token);
+                            return true;
+                        &#125;catch(Exception e)
+                        &#123;
+                            return false;
+                        &#125;
+                    &#125;
+                &#125;
+                </code></pre>
+                
+                    <h3>Beneficios de la Implementación JWT</h3>
+                
+                    <ul>
+                        <li><b>Seguridad mejorada:</b>  JWT proporciona un mecanismo de autenticación robusto y seguro, que protege la aplicación contra ataques comunes como la falsificación de solicitudes entre sitios (CSRF) y la reutilización de tokens.</li>
+                        <li><b>Escalabilidad:</b> La autenticación sin estado facilita la escalabilidad de la aplicación, ya que el servidor no necesita mantener información de sesión para cada usuario. Esto permite que la aplicación maneje un gran número de usuarios concurrentes sin comprometer el rendimiento.</li>
+                        <li><b>Eficiencia:</b> Los tokens JWT son compactos y se transmiten fácilmente en las solicitudes HTTP, lo que reduce la sobrecarga de comunicación entre el cliente y el servidor.</li>
+                        <li><b>Flexibilidad:</b> JWT se puede utilizar para la autenticación en diferentes tipos de aplicaciones y plataformas, incluyendo aplicaciones web, móviles y APIs.</li>
+                        <li><b>Información autocontenida:</b> El token JWT contiene la información necesaria para la autenticación y autorización, lo que reduce la necesidad de realizar consultas a la base de datos en cada solicitud.</li>
+                        <li><b>Fácil implementación:</b> Existen librerías y herramientas disponibles para facilitar la implementación de JWT en diferentes lenguajes de programación y frameworks.</li>
+                    </ul>
+                
+                    <p>La implementación de JWT en "Arrienda tu Finca" contribuye significativamente a la seguridad y la eficiencia de la plataforma, garantizando una experiencia de usuario confiable y protegida.</p>
+                </section>
     
-        <!-- Continuar con el resto de las secciones (BackEnd, ControladorArrendador.java, etc.) -->
-    </div>
+                <section id="pruebas-interfaz">
+                    <h2>4. Pruebas de Interfaz</h2>
+                
+                    <p>Para asegurar la calidad y la funcionalidad del frontend de "Arrienda tu Finca", se ha llevado a cabo un conjunto exhaustivo de pruebas de interfaz utilizando Cypress. Cypress es una herramienta de pruebas de extremo a extremo (E2E) de código abierto que permite simular la interacción del usuario con la aplicación en un navegador real.</p>
+                
+                    <p>Estas pruebas se centran en validar diferentes aspectos de la interfaz de usuario, incluyendo:</p>
+                
+                    <ul>
+                        <li><b>Renderización de Componentes:</b>
+                            <ul>
+                                <li>Verificar que todos los componentes de la interfaz de usuario se renderizan correctamente en diferentes navegadores y dispositivos.</li>
+                                <li>Comprobar que los elementos de la interfaz, como botones, campos de entrada, imágenes y tablas, se muestran de forma correcta y en la posición esperada.</li>
+                                <li>Validar que los estilos CSS se aplican correctamente y que la interfaz tiene la apariencia deseada.</li>
+                            </ul>
+                        </li>
+                        <li><b>Interacción del Usuario:</b>
+                            <ul>
+                                <li>Simular las acciones del usuario, como clics, ingreso de datos en formularios, selección de elementos, desplazamiento de la página, etc.</li>
+                                <li>Verificar que la aplicación responde correctamente a las interacciones del usuario, realizando las acciones esperadas, como mostrar mensajes de error, actualizar la información en la pantalla o redirigir a otras páginas.</li>
+                                <li>Validar la lógica de la interfaz de usuario, como la validación de formularios, el manejo de eventos y la actualización del estado de la aplicación.</li>
+                            </ul>
+                        </li>
+                        <li><b>Flujo de Navegación:</b>
+                            <ul>
+                                <li>Comprobar el flujo de navegación entre las diferentes vistas de la aplicación, simulando el recorrido del usuario a través de las diferentes páginas.</li>
+                                <li>Verificar que las redirecciones entre páginas funcionan correctamente, tanto en la navegación normal como en situaciones especiales, como después de iniciar sesión o enviar un formulario.</li>
+                                <li>Asegurar que el usuario puede acceder a todas las secciones de la aplicación de forma fluida y sin errores.</li>
+                            </ul>
+                        </li>
+                        <li><b>Integración con el Backend:</b>
+                            <ul>
+                                <li>Validar la comunicación entre el frontend y el backend, simulando las solicitudes HTTP que se realizan al servidor.</li>
+                                <li>Comprobar que la aplicación envía las solicitudes correctas al backend, con los datos adecuados y en el formato esperado.</li>
+                                <li>Verificar que la aplicación maneja las respuestas del backend de forma correcta, mostrando la información recibida del servidor o mostrando mensajes de error en caso de fallos.</li>
+                                <li>Validar la autenticación JWT, comprobando que el token se incluye en las solicitudes a recursos protegidos y que la aplicación maneja correctamente las respuestas de autenticación del backend.</li>
+                            </ul>
+                        </li>
+                        <li><b>Manejo de Errores:</b>
+                            <ul>
+                                <li>Simular situaciones de error, como la introducción de datos inválidos en formularios o la falta de conexión a internet.</li>
+                                <li>Verificar que la aplicación muestra mensajes de error claros y útiles al usuario en caso de errores.</li>
+                                <li>Comprobar que la aplicación se recupera de los errores de forma correcta y permite al usuario continuar utilizando la aplicación.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                
+                    <h3>Ventajas de Cypress</h3>
+                
+                    <p>Cypress ofrece varias ventajas para las pruebas de interfaz:</p>
+                
+                    <ul>
+                        <li><b>Facilidad de uso:</b> Cypress tiene una sintaxis sencilla y fácil de aprender, lo que facilita la escritura de pruebas.</li>
+                        <li><b>Ejecución rápida:</b> Cypress ejecuta las pruebas de forma rápida y eficiente, lo que permite obtener resultados rápidos.</li>
+                        <li><b>Depuración sencilla:</b> Cypress proporciona herramientas de depuración que facilitan la identificación y corrección de errores en las pruebas.</li>
+                        <li><b>Integración con el navegador:</b> Cypress se ejecuta directamente en el navegador, lo que permite una simulación precisa de la interacción del usuario.</li>
+                        <li><b>Capturas de pantalla y videos:</b> Cypress puede tomar capturas de pantalla y videos de las pruebas, lo que facilita la visualización del comportamiento de la aplicación.</li>
+                    </ul>
+                
+                    <h3>Ejemplos de Pruebas con Cypress</h3>
+                
+                    <p>A continuación se muestran algunos ejemplos de pruebas con Cypress:</p>
+                
+                    <h4>Prueba de inicio de sesión (login-register.component.spec.ts)</h4>
+                    <pre><code class="language-typescript">describe('LoginRegisterComponent', () =&gt; &#123;
+                  it('should login successfully', () =&gt; &#123;
+                    cy.visit('/login'); // Visitar la página de inicio de sesión
+                    cy.get('input[name="email"]').type('usuario&#64;example.com'); // Ingresar el correo electrónico
+                    cy.get('input[name="password"]').type('contraseña'); // Ingresar la contraseña
+                    cy.get('button[type="submit"]').click(); // Hacer clic en el botón de iniciar sesión
+                    cy.url().should('include', '/dashboard'); // Verificar que la URL incluye "/dashboard" después de iniciar sesión
+                  &#125;);
+                
+                  it('should show an error message for invalid credentials', () =&gt; &#123;
+                    cy.visit('/login');
+                    cy.get('input[name="email"]').type('usuario&#64;example.com');
+                    cy.get('input[name="password"]').type('contraseña_incorrecta');
+                    cy.get('button[type="submit"]').click();
+                    cy.get('.error-message').should('be.visible'); // Verificar que se muestra el mensaje de error
+                  &#125;);
+                &#125;);
+                </code></pre>
+                
+                    <h4>Prueba de publicación de finca (publicar-finca.component.spec.ts)</h4>
+                    <pre><code class="language-typescript">describe('PublicarFincaComponent', () =&gt; &#123;
+                  it('should publish a farm successfully', () =&gt; &#123;
+                    cy.visit('/publicar-finca'); // Visitar la página de publicación de finca
+                    cy.get('input[name="nombre"]').type('Mi Finca'); // Ingresar el nombre de la finca
+                    // ... ingresar otros datos de la finca
+                    cy.get('button[type="submit"]').click(); // Hacer clic en el botón de publicar
+                    cy.get('.success-message').should('be.visible'); // Verificar que se muestra el mensaje de éxito
+                  &#125;);
+                &#125;);
+                </code></pre>
+                
+                    <p>Las pruebas de interfaz con Cypress son una parte fundamental del desarrollo de "Arrienda tu Finca", ya que permiten asegurar la calidad y la funcionalidad del frontend, proporcionando una experiencia de usuario satisfactoria.</p>
+                </section>
     
-</section>
+                <section id="pruebas-carga">
+                    <h2>5. Pruebas de Carga</h2>
+                
+                    <p>Para garantizar que "Arrienda tu Finca" pueda manejar un gran número de usuarios y transacciones de forma eficiente, se realizaron pruebas de carga utilizando Apache JMeter. JMeter es una herramienta de código abierto que permite simular la carga de usuarios concurrentes en una aplicación web.</p>
+                
+                    <p>Las pruebas de carga se centraron en evaluar el rendimiento del sistema bajo diferentes niveles de estrés, simulando escenarios realistas de uso de la aplicación. Esto permitió:</p>
+                
+                    <ul>
+                        <li><b>Identificar cuellos de botella:</b> Detectar los puntos débiles del sistema que limitan su rendimiento, como tiempos de respuesta lentos en determinadas peticiones, errores de conexión a la base de datos o saturación de recursos del servidor (CPU, memoria, ancho de banda).</li>
+                        <li><b>Medir tiempos de respuesta:</b> Obtener métricas precisas sobre los tiempos de respuesta de la aplicación bajo diferentes niveles de carga. Esto permite determinar la capacidad del sistema para manejar un gran número de usuarios concurrentes sin degradar la experiencia de usuario.</li>
+                        <li><b>Evaluar la escalabilidad:</b>  Determinar cómo se comporta la aplicación al aumentar el número de usuarios o el volumen de datos. Esto permite identificar las limitaciones de la arquitectura y planificar la escalabilidad del sistema para futuras demandas.</li>
+                        <li><b>Analizar el consumo de recursos:</b> Monitorizar el consumo de recursos del servidor (CPU, memoria, ancho de banda, etc.) bajo diferentes niveles de carga. Esto permite optimizar la infraestructura y la configuración del sistema para un rendimiento óptimo.</li>
+                        <li><b>Validar la estabilidad del sistema:</b> Comprobar que la aplicación se mantiene estable bajo una carga sostenida de usuarios, sin presentar errores o fallos inesperados.</li>
+                    </ul>
+                
+                    <h3>Escenarios de Prueba</h3>
+                
+                    <p>Se configuraron diferentes escenarios de prueba en JMeter para simular situaciones realistas de uso de la aplicación, incluyendo:</p>
+                
+                    <ul>
+                        <li><b>Inicio de sesión concurrente:</b> Simular un gran número de usuarios iniciando sesión en la aplicación simultáneamente.</li>
+                        <li><b>Búsqueda de fincas:</b> Simular múltiples usuarios buscando fincas con diferentes criterios de búsqueda.</li>
+                        <li><b>Solicitud de arrendamiento:</b> Simular múltiples usuarios enviando solicitudes de arrendamiento a diferentes fincas.</li>
+                        <li><b>Gestión de solicitudes:</b>  Simular arrendadores gestionando múltiples solicitudes de arrendamiento (aceptando o rechazando).</li>
+                        <li><b>Generación de contratos:</b> Simular la generación de múltiples contratos de arrendamiento.</li>
+                        <li><b>Navegación por la plataforma:</b> Simular usuarios navegando por diferentes secciones de la aplicación, como la página de inicio, el perfil de usuario, el historial de arrendamientos, etc.</li>
+                    </ul>
+                
+                    <h3>Configuración de JMeter</h3>
+                
+                    <p>Para cada escenario de prueba, se configuró JMeter con los siguientes elementos:</p>
+                
+                    <ul>
+                        <li><b>Plan de Pruebas:</b>  Define la estructura general de la prueba, incluyendo los elementos de configuración, los grupos de hilos y los listeners.</li>
+                        <li><b>Grupo de Hilos:</b>  Simula un grupo de usuarios virtuales que acceden a la aplicación. Se configura el número de hilos (usuarios), el tiempo de ramp-up (tiempo que tarda en iniciar todos los hilos) y el número de iteraciones (veces que cada hilo ejecuta la prueba).</li>
+                        <li><b>Peticiones HTTP:</b>  Simulan las solicitudes HTTP que los usuarios realizan a la aplicación. Se configuran las peticiones a diferentes endpoints del backend, incluyendo la autenticación, la búsqueda de fincas, la gestión de solicitudes y la generación de contratos.</li>
+                        <li><b>Gestor de Cabeceras HTTP:</b>  Permite configurar las cabeceras HTTP de las peticiones, incluyendo la cabecera <code>Authorization</code> con el token JWT para la autenticación.</li>
+                        <li><b>Temporizadores:</b>  Simulan el tiempo de espera entre las acciones de los usuarios, para que la prueba sea más realista.</li>
+                        <li><b>Controladores Lógicos:</b>  Permiten controlar el flujo de ejecución de la prueba, como la ejecución condicional de peticiones o la repetición de un grupo de peticiones.</li>
+                        <li><b>Aserciones:</b>  Verifican que las respuestas del servidor cumplen con las expectativas, como la presencia de un código de estado HTTP 200 (OK) o la presencia de un elemento específico en la respuesta.</li>
+                        <li><b>Listeners:</b>  Muestran los resultados de la prueba en diferentes formatos, como tablas, gráficos y árboles de resultados. Permiten visualizar las métricas de rendimiento, como los tiempos de respuesta, el número de peticiones por segundo, los errores y el consumo de recursos.</li>
+                    </ul>
+                
+                    <h3>Resultados de las Pruebas</h3>
+                
+                    <p>Las pruebas de carga con JMeter proporcionaron información valiosa sobre el rendimiento de "Arrienda tu Finca" bajo estrés. Se analizaron las métricas de rendimiento, como los tiempos de respuesta, el número de peticiones por segundo, los errores y el consumo de recursos. Los resultados de las pruebas permitieron identificar posibles cuellos de botella y optimizar la aplicación para un rendimiento óptimo.</p>
+                
+                    <p>Las pruebas de carga son una parte esencial del proceso de desarrollo de "Arrienda tu Finca", ya que permiten asegurar que la aplicación pueda manejar la carga de usuarios esperada en producción y proporcionar una buena experiencia de usuario.</p>
+                </section>
+    
+                <section id="componentes">
+                    <h2>6. Descripción de Componentes</h2>
+                    <p>
+                      "Arrienda tu Finca" está construido con una arquitectura modular,
+                      dividida en frontend y backend. Cada componente tiene un rol específico
+                      para asegurar la funcionalidad y el rendimiento de la aplicación.
+                    </p>
+                  
+                    <h3>Backend (Spring Boot)</h3>
+                  
+                    <h4>Modelos</h4>
+                    <p>
+                      Los modelos representan las entidades del sistema y definen la estructura
+                      de los datos en la base de datos. Se utilizan para mapear las tablas de la
+                      base de datos a objetos Java.
+                    </p>
+                    <p>Ejemplo: Modelo de Finca</p>
+                    <pre><code class="language-java">&#64;Entity
+                  public class Finca &#123;
+                  
+                      &#64;Id
+                      &#64;GeneratedValue(strategy = GenerationType.IDENTITY)
+                      private Long id;
+                  
+                      private String nombre;
+                      private String descripcion;
+                      private Double precio;
+                      private String ubicacion;
+                      private int capacidad;
+                      private boolean disponible;
+                  
+                      // ... otros atributos como tipo de finca, características, etc.
+                  
+                      // Getters y Setters
+                  &#125;
+                  </code></pre>
+                  
+                    <h4>Servicios</h4>
+                    <p>
+                      Los servicios contienen la lógica de negocio de la aplicación. Se encargan
+                      de procesar la información, aplicar reglas de negocio e interactuar con la
+                      base de datos a través de los repositorios.
+                    </p>
+                    <p>Ejemplo: Servicio de Fincas</p>
+                    <pre><code class="language-java">&#64;Service
+                  public class FincaService &#123;
+                  
+                      &#64;Autowired
+                      private FincaRepository fincaRepository;
+                  
+                      public List&lt;Finca&gt; listarFincas() &#123;
+                          return fincaRepository.findAll();
+                      &#125;
+                  
+                      public Finca obtenerFincaPorId(Long id) &#123;
+                          return fincaRepository.findById(id).orElse(null);
+                      &#125;
+                  
+                      public Finca guardarFinca(Finca finca) &#123;
+                          return fincaRepository.save(finca);
+                      &#125;
+                  
+                      public void eliminarFinca(Long id) &#123;
+                          fincaRepository.deleteById(id);
+                      &#125;
+                  
+                      // ... otros métodos para buscar fincas, filtrar, etc.
+                  &#125;
+                  </code></pre>
+                  
+                    <h4>Repositorios</h4>
+                    <p>
+                      Los repositorios se encargan de la persistencia de datos. Exponen métodos
+                      para realizar operaciones CRUD (Crear, Leer, Actualizar, Eliminar) en la
+                      base de datos. Spring Data JPA facilita la creación de repositorios
+                      proporcionando interfaces que se implementan automáticamente.
+                    </p>
+                    <p>Ejemplo: Repositorio de Fincas</p>
+                    <pre><code class="language-java">public interface FincaRepository extends JpaRepository&lt;Finca, Long&gt; &#123;
+                  
+                      // Métodos de consulta personalizados, si es necesario
+                      List&lt;Finca&gt; findByUbicacion(String ubicacion);
+                  &#125;
+                  </code></pre>
+                  
+                    <h4>Controladores</h4>
+                    <p>
+                      Los controladores manejan las solicitudes HTTP entrantes, interactúan con
+                      los servicios para procesar la información y devuelven respuestas al
+                      frontend.
+                    </p>
+                    <p>Ejemplo: Controlador de Fincas</p>
+                    <pre><code class="language-java">&#64;RestController
+                  &#64;RequestMapping("/api/fincas")
+                  public class FincaController &#123;
+                  
+                      &#64;Autowired
+                      private FincaService fincaService;
+                  
+                      &#64;GetMapping
+                      public List&lt;Finca&gt; listarFincas() &#123;
+                          return fincaService.listarFincas();
+                      &#125;
+                  
+                      &#64;GetMapping("/&#123;id&#125;")
+                      public ResponseEntity&lt;Finca&gt; obtenerFincaPorId(&#64;PathVariable Long id) &#123;
+                          Finca finca = fincaService.obtenerFincaPorId(id);
+                          return finca != null ? ResponseEntity.ok(finca) : ResponseEntity.notFound().build();
+                      &#125;
+                  
+                      &#64;PostMapping
+                      public ResponseEntity&lt;Finca&gt; guardarFinca(&#64;RequestBody Finca finca) &#123;
+                          Finca nuevaFinca = fincaService.guardarFinca(finca);
+                          return ResponseEntity.status(HttpStatus.CREATED).body(nuevaFinca);
+                      &#125;
+                  
+                      // ... otros métodos para actualizar y eliminar fincas
+                  &#125;
+                  </code></pre>
+                  
+                    <h3>Frontend (Angular)</h3>
+                  
+                    <h4>Componentes</h4>
+                    <p>
+                      Los componentes son los bloques de construcción de la interfaz de usuario
+                      en Angular. Cada componente encapsula una parte de la vista, la lógica y
+                      los datos asociados.
+                    </p>
+                    <p>Ejemplos de componentes:</p>
+                    <ul>
+                      <li>
+                        <b>login-register.component.ts:</b> Maneja el inicio de sesión y el
+                        registro de usuarios, incluyendo la gestión del token JWT.
+                      </li>
+                      <li>
+                        <b>finca-list.component.ts:</b> Muestra una lista de fincas,
+                        permitiendo a los usuarios buscar y filtrar fincas.
+                      </li>
+                      <li>
+                        <b>finca-details.component.ts:</b> Muestra la información detallada de
+                        una finca seleccionada.
+                      </li>
+                      <li>
+                        <b>solicitud-arrendamiento.component.ts:</b> Permite a los arrendatarios
+                        enviar solicitudes de arrendamiento.
+                      </li>
+                      <li>
+                        <b>calificar-arrendatario.component.ts:</b> Permite a los arrendadores
+                        calificar a los arrendatarios.
+                      </li>
+                      <li>
+                        <b>contratos-arrendador.component.ts:</b> Permite a los arrendadores
+                        gestionar los contratos de arrendamiento.
+                      </li>
+                    </ul>
+                  
+                    <h4>Servicios</h4>
+                    <p>
+                      Los servicios en Angular se utilizan para compartir datos y lógica entre
+                      diferentes componentes. Se encargan de realizar las solicitudes HTTP al
+                      backend y de procesar las respuestas.
+                    </p>
+                    <p>Ejemplo: Servicio de Fincas</p>
+                    <pre><code class="language-typescript">&#64;Injectable(&#123;
+                    providedIn: 'root'
+                  &#125;)
+                  export class FincaService &#123;
+                    private apiUrl = '/api/fincas';
+                  
+                    constructor(private http: HttpClient) &#123; &#125;
+                  
+                    listarFincas(): Observable&lt;Finca[]&gt; &#123;
+                      return this.http.get&lt;Finca[]&gt;(this.apiUrl);
+                    &#125;
+                  
+                    obtenerFincaPorId(id: number): Observable&lt;Finca&gt; &#123;
+                      return this.http.get&lt;Finca&gt;(`$&#123;this.apiUrl&#125;/$&#123;id&#125;`);
+                    &#125;
+                  
+                    // ... otros métodos para guardar, actualizar y eliminar fincas
+                  &#125;
+                  </code></pre>
+                  
+                    <h4>Módulos</h4>
+                    <p>
+                      Los módulos en Angular se utilizan para organizar la aplicación en
+                      unidades cohesivas. Cada módulo agrupa componentes, servicios y otros
+                      elementos relacionados.
+                    </p>
+                    <p>Ejemplos de módulos:</p>
+                    <ul>
+                      <li><b>AppModule:</b> Módulo principal de la aplicación.</li>
+                      <li><b>FincaModule:</b> Módulo que contiene los componentes y servicios
+                      relacionados con las fincas.</li>
+                      <li><b>UsuarioModule:</b> Módulo que contiene los componentes y servicios
+                      relacionados con los usuarios.</li>
+                    </ul>
+                  </section>
+    
+                  <section id="pruebas">
+                    <h2>7. Pruebas y Validación</h2>
+                    <p>
+                        La calidad del software es una prioridad en "Arrienda tu Finca". Para
+                        garantizar la funcionalidad, el rendimiento y la seguridad de la
+                        aplicación, se ha implementado una estrategia de pruebas exhaustiva que
+                        incluye diferentes tipos de pruebas:
+                    </p>
+                
+                    <h3>Pruebas Unitarias</h3>
+                    <p>
+                        Las pruebas unitarias se centran en verificar el correcto
+                        funcionamiento de las unidades individuales de código, como clases y
+                        métodos. Estas pruebas se realizan de forma aislada, utilizando mocks
+                        para simular las dependencias externas.
+                    </p>
+                    <p>Herramientas utilizadas:</p>
+                    <ul>
+                        <li>
+                            <b>JUnit:</b> Framework de pruebas unitarias para Java, que
+                            proporciona anotaciones y aserciones para escribir y ejecutar
+                            pruebas.
+                        </li>
+                        <li>
+                            <b>Mockito:</b> Framework para la creación de mocks (objetos
+                            simulados) en Java, que permite simular el comportamiento de las
+                            dependencias externas y aislar el código bajo prueba.
+                        </li>
+                    </ul>
+                    <p>Ejemplos de pruebas unitarias:</p>
+                    <ul>
+                        <li>
+                            Verificar que el método <code>listarFincas()</code> del servicio
+                            <code>FincaService</code> devuelve la lista correcta de fincas
+                            de la base de datos.
+                        </li>
+                        <li>
+                            Verificar que el método <code>validarToken()</code> del servicio
+                            <code>JWTTokenService</code> valida correctamente un token JWT.
+                        </li>
+                    </ul>
+                
+                    <h3>Pruebas de Integración</h3>
+                    <p>
+                        Las pruebas de integración verifican la interacción entre diferentes
+                        componentes del sistema. Estas pruebas se realizan para asegurar que los
+                        componentes funcionan correctamente cuando se integran entre sí.
+                    </p>
+                    <p>Ejemplos de pruebas de integración:</p>
+                    <ul>
+                        <li>
+                            Verificar la comunicación entre el frontend y el backend,
+                            comprobando que las solicitudes HTTP se realizan correctamente y que
+                            las respuestas se procesan de forma adecuada.
+                        </li>
+                        <li>
+                            Verificar la interacción con la base de datos, comprobando que los
+                            datos se guardan, recuperan y actualizan correctamente.
+                        </li>
+                        <li>
+                            Verificar la integración entre diferentes servicios del backend,
+                            como la interacción entre el servicio de autenticación y el servicio
+                            de fincas.
+                        </li>
+                    </ul>
+                
+                    <h3>Pruebas de Extremo a Extremo (E2E)</h3>
+                    <p>
+                        Las pruebas de extremo a extremo validan el flujo completo de la
+                        aplicación desde la perspectiva del usuario. Estas pruebas simulan el
+                        comportamiento de un usuario real interactuando con la aplicación,
+                        navegando por las diferentes pantallas, ingresando datos y verificando
+                        los resultados.
+                    </p>
+                    <p>Herramienta utilizada:</p>
+                    <ul>
+                        <li>
+                            <b>Cypress:</b> Herramienta de pruebas E2E para aplicaciones web,
+                            que permite simular la interacción del usuario en un navegador real.
+                        </li>
+                    </ul>
+                    <p>Ejemplos de pruebas E2E:</p>
+                    <ul>
+                        <li>
+                            Simular el proceso de registro de un nuevo usuario, incluyendo el
+                            ingreso de datos en el formulario de registro, la verificación del
+                            correo electrónico y el inicio de sesión en la aplicación.
+                        </li>
+                        <li>
+                            Simular el proceso de publicación de una finca por parte de un
+                            arrendador, incluyendo el ingreso de la información de la finca, la
+                            subida de fotos y la verificación de que la finca se muestra
+                            correctamente en la lista de fincas disponibles.
+                        </li>
+                        <li>
+                            Simular el proceso de búsqueda y solicitud de arrendamiento de una
+                            finca por parte de un arrendatario, incluyendo la búsqueda de
+                            fincas, la selección de una finca, el envío de la solicitud de
+                            arrendamiento y la verificación del estado de la solicitud.
+                        </li>
+                    </ul>
+                
+                    <h3>Pruebas de Carga</h3>
+                    <p>
+                        Las pruebas de carga evalúan el rendimiento del sistema bajo estrés,
+                        simulando el acceso concurrente de múltiples usuarios a la aplicación.
+                    </p>
+                    <p>Herramienta utilizada:</p>
+                    <ul>
+                        <li>
+                            <b>JMeter:</b> Herramienta de pruebas de carga de código abierto,
+                            que permite simular la carga de usuarios concurrentes en una
+                            aplicación web.
+                        </li>
+                    </ul>
+                    <p>Ejemplos de pruebas de carga:</p>
+                    <ul>
+                        <li>
+                            Simular un gran número de usuarios iniciando sesión en la
+                            aplicación simultáneamente.
+                        </li>
+                        <li>
+                            Simular múltiples usuarios buscando fincas con diferentes criterios
+                            de búsqueda.
+                        </li>
+                        <li>
+                            Simular múltiples usuarios enviando solicitudes de arrendamiento a
+                            diferentes fincas.
+                        </li>
+                    </ul>
+                
+                    <h3>Beneficios de la Estrategia de Pruebas</h3>
+                    <p>
+                        La estrategia de pruebas implementada en "Arrienda tu Finca" aporta
+                        los siguientes beneficios:
+                    </p>
+                    <ul>
+                        <li>
+                            <b>Mayor calidad del software:</b> Las pruebas exhaustivas
+                            permiten detectar y corregir errores en etapas tempranas del
+                            desarrollo, lo que resulta en un software de mayor calidad.
+                        </li>
+                        <li>
+                            <b>Mayor confianza en el sistema:</b> Las pruebas garantizan que
+                            la aplicación funciona como se espera y que cumple con los
+                            requisitos, lo que aumenta la confianza en el sistema.
+                        </li>
+                        <li>
+                            <b>Reducción de costos:</b> Detectar y corregir errores en etapas
+                            tempranas del desarrollo es más económico que hacerlo en etapas
+                            posteriores o en producción.
+                        </li>
+                        <li>
+                            <b>Mejora del rendimiento:</b> Las pruebas de carga permiten
+                            identificar cuellos de botella y optimizar el rendimiento de la
+                            aplicación.
+                        </li>
+                        <li>
+                            <b>Mayor satisfacción del usuario:</b> Un software de calidad,
+                            con buen rendimiento y sin errores, proporciona una mejor
+                            experiencia de usuario.
+                        </li>
+                    </ul>
+                </section>
+                
+                <section id="despliegue">
+                    <h2>8. Despliegue</h2>
+                    <p>
+                        Para asegurar que "Arrienda tu Finca" esté disponible de forma
+                        confiable y eficiente para los usuarios, se ha elegido una estrategia de
+                        despliegue basada en contenedores utilizando Docker y Kubernetes.
+                    </p>
+                
+                    <h3>Docker</h3>
+                    <p>
+                        Docker es una plataforma de código abierto que permite empaquetar
+                        aplicaciones y sus dependencias en contenedores. Estos contenedores son
+                        unidades de software portátiles y autocontenidas que se pueden ejecutar
+                        en cualquier sistema que tenga Docker instalado, independientemente del
+                        sistema operativo subyacente.
+                    </p>
+                    <p>Beneficios de usar Docker:</p>
+                    <ul>
+                        <li>
+                            <b>Portabilidad:</b> Los contenedores Docker se pueden ejecutar en
+                            cualquier máquina con Docker instalado, lo que facilita el
+                            despliegue en diferentes entornos (desarrollo, pruebas,
+                            producción).
+                        </li>
+                        <li>
+                            <b>Consistencia:</b> Los contenedores garantizan que la aplicación
+                            se ejecutará de la misma manera en cualquier entorno, eliminando
+                            problemas de compatibilidad.
+                        </li>
+                        <li>
+                            <b>Aislamiento:</b> Los contenedores aíslan la aplicación y sus
+                            dependencias del sistema operativo anfitrión, lo que mejora la
+                            seguridad y la estabilidad.
+                        </li>
+                        <li>
+                            <b>Eficiencia:</b> Los contenedores son ligeros y consumen menos
+                            recursos que las máquinas virtuales tradicionales.
+                        </li>
+                    </ul>
+                    <p>
+                        En "Arrienda tu Finca", se utilizan contenedores Docker para empaquetar
+                        tanto el frontend (Angular) como el backend (Spring Boot) de la
+                        aplicación. Esto permite desplegar la aplicación de forma consistente
+                        en diferentes entornos.
+                    </p>
+                
+                    <h3>Kubernetes</h3>
+                    <p>
+                        Kubernetes es un sistema de código abierto para la orquestación de
+                        contenedores. Permite automatizar el despliegue, la escalabilidad y la
+                        gestión de aplicaciones en contenedores.
+                    </p>
+                    <p>Beneficios de usar Kubernetes:</p>
+                    <ul>
+                        <li>
+                            <b>Automatización del despliegue:</b> Kubernetes automatiza el
+                            despliegue de aplicaciones en contenedores, lo que facilita la
+                            actualización y el lanzamiento de nuevas versiones.
+                        </li>
+                        <li>
+                            <b>Escalabilidad:</b> Kubernetes permite escalar la aplicación
+                            horizontalmente, añadiendo o eliminando instancias de la aplicación
+                            según sea necesario para manejar la carga.
+                        </li>
+                        <li>
+                            <b>Alta disponibilidad:</b> Kubernetes monitoriza el estado de la
+                            aplicación y reinicia automáticamente las instancias que fallen, lo
+                            que garantiza la disponibilidad del sistema.
+                        </li>
+                        <li>
+                            <b>Gestión de recursos:</b> Kubernetes gestiona los recursos del
+                            clúster, asignando recursos a las aplicaciones según sea
+                            necesario.
+                        </li>
+                        <li>
+                            <b>Auto-recuperación:</b> Kubernetes puede reiniciar
+                            automáticamente los contenedores que fallen, lo que aumenta la
+                            fiabilidad del sistema.
+                        </li>
+                        <li>
+                            <b>Descubrimiento de servicios:</b> Kubernetes facilita el
+                            descubrimiento de servicios dentro del clúster, lo que permite que
+                            las aplicaciones se comuniquen entre sí de forma eficiente.
+                        </li>
+                    </ul>
+                    <p>
+                        En "Arrienda tu Finca", Kubernetes se utiliza para desplegar y
+                        gestionar los contenedores Docker en un clúster de servidores. Esto
+                        permite escalar la aplicación de forma flexible, asegurar la alta
+                        disponibilidad y facilitar la gestión del sistema en producción.
+                    </p>
+                
+                    <h3>Proceso de Despliegue</h3>
+                    <p>
+                        El proceso de despliegue de "Arrienda tu Finca" sigue los siguientes
+                        pasos:
+                    </p>
+                    <ol>
+                        <li>
+                            <b>Construcción de imágenes Docker:</b> Se crean imágenes Docker
+                            para el frontend y el backend de la aplicación, incluyendo todas
+                            las dependencias necesarias.
+                        </li>
+                        <li>
+                            <b>Publicación de imágenes:</b> Las imágenes Docker se publican en
+                            un registro de imágenes, como Docker Hub o un registro privado.
+                        </li>
+                        <li>
+                            <b>Definición de los manifiestos de Kubernetes:</b> Se crean
+                            archivos YAML que definen los recursos de Kubernetes, como
+                            deployments, services y pods, que se utilizarán para desplegar la
+                            aplicación.
+                        </li>
+                        <li>
+                            <b>Despliegue en Kubernetes:</b> Se utilizan las herramientas de
+                            Kubernetes (kubectl) para desplegar la aplicación en el clúster,
+                            utilizando los manifiestos definidos.
+                        </li>
+                        <li>
+                            <b>Verificación del despliegue:</b> Se verifica que la aplicación
+                            se ha desplegado correctamente y que está funcionando como se
+                            espera.
+                        </li>
+                    </ol>
+                
+                    <h3>Beneficios del Despliegue con Docker y Kubernetes</h3>
+                    <p>
+                        El uso de Docker y Kubernetes para el despliegue de "Arrienda tu Finca"
+                        aporta los siguientes beneficios:
+                    </p>
+                    <ul>
+                        <li>
+                            <b>Despliegue rápido y eficiente:</b> La automatización del
+                            despliegue con Docker y Kubernetes permite realizar despliegues
+                            rápidos y eficientes, lo que reduce el tiempo de inactividad de la
+                            aplicación.
+                        </li>
+                        <li>
+                            <b>Escalabilidad y alta disponibilidad:</b> Kubernetes permite
+                            escalar la aplicación de forma flexible y asegurar la alta
+                            disponibilidad del sistema, lo que garantiza que la aplicación
+                            pueda manejar la carga de usuarios y que esté siempre disponible.
+                        </li>
+                        <li>
+                            <b>Gestión simplificada:</b> Kubernetes facilita la gestión y el
+                            mantenimiento de la aplicación en producción, proporcionando
+                            herramientas para monitorizar el estado del sistema, actualizar la
+                            aplicación y solucionar problemas.
+                        </li>
+                        <li>
+                            <b>Portabilidad:</b>  La aplicación se puede desplegar en
+                            diferentes entornos (nube, on-premise) sin necesidad de realizar
+                            cambios significativos en la configuración.
+                        </li>
+                    </ul>
+                </section>
+                
+    
+                <section id="tecnologias">
+                    <h2>9. Tecnologías Utilizadas</h2>
+                    <p>
+                      "Arrienda tu Finca" se ha construido utilizando una variedad de
+                      tecnologías modernas para el desarrollo web, la gestión de datos, la
+                      seguridad y el despliegue. Estas tecnologías se han seleccionado
+                      cuidadosamente para garantizar la eficiencia, la escalabilidad y la
+                      seguridad de la aplicación.
+                    </p>
+                  
+                    <h3>Frontend</h3>
+                    <ul>
+                      <li>
+                        <b>Angular:</b> Framework de JavaScript de código abierto, mantenido por
+                        Google, que se utiliza para construir aplicaciones web de una sola
+                        página (SPA) dinámicas y escalables. Angular proporciona un conjunto de
+                        herramientas y características para el desarrollo de interfaces de
+                        usuario, la gestión de datos, la interacción con el backend y las
+                        pruebas.
+                      </li>
+                      <li>
+                        <b>TypeScript:</b> Lenguaje de programación de código abierto que se
+                        compila a JavaScript. TypeScript añade tipado estático a JavaScript, lo
+                        que mejora la calidad del código y facilita el mantenimiento.
+                      </li>
+                      <li>
+                        <b>HTML:</b> Lenguaje de marcado estándar para crear la estructura de
+                        las páginas web.
+                      </li>
+                      <li>
+                        <b>CSS:</b> Lenguaje de hojas de estilo que se utiliza para dar estilo a
+                        la apariencia visual de las páginas web.
+                      </li>
+                      <li>
+                        <b>Cypress:</b> Herramienta de pruebas de extremo a extremo (E2E) que
+                        permite simular la interacción del usuario con la aplicación en un
+                        navegador real. Cypress se utiliza para probar la funcionalidad y la
+                        usabilidad del frontend.
+                      </li>
+                    </ul>
+                  
+                    <h3>Backend</h3>
+                    <ul>
+                      <li>
+                        <b>Java:</b> Lenguaje de programación de propósito general, orientado
+                        a objetos, que se utiliza para desarrollar el backend de la aplicación.
+                      </li>
+                      <li>
+                        <b>Spring Boot:</b> Framework de Java que facilita el desarrollo de
+                        aplicaciones web robustas y escalables. Spring Boot proporciona
+                        características como la inyección de dependencias, la configuración
+                        automática y la integración con bases de datos.
+                      </li>
+                      <li>
+                        <b>Spring Security:</b> Framework de seguridad para aplicaciones Java
+                        que proporciona características como la autenticación, la autorización y
+                        la protección contra ataques comunes.
+                      </li>
+                      <li>
+                        <b>Spring Data JPA:</b> Framework que facilita la interacción con bases
+                        de datos relacionales utilizando Java Persistence API (JPA).
+                      </li>
+                      <li>
+                        <b>JUnit:</b> Framework de pruebas unitarias para Java.
+                      </li>
+                      <li>
+                        <b>Mockito:</b> Framework para la creación de mocks (objetos
+                        simulados) en Java.
+                      </li>
+                    </ul>
+                  
+                    <h3>Base de Datos</h3>
+                    <ul>
+                      <li>
+                        <b>MySQL:</b> Sistema de gestión de bases de datos relacional de código
+                        abierto que se utiliza para almacenar la información de la aplicación.
+                      </li>
+                    </ul>
+                  
+                    <h3>Seguridad</h3>
+                    <ul>
+                      <li>
+                        <b>JWT (JSON Web Tokens):</b> Estándar abierto (RFC 7519) que define
+                        una forma compacta y autocontenida para transmitir información de forma
+                        segura entre partes como un objeto JSON. Se utiliza para la
+                        autenticación y autorización de usuarios.
+                      </li>
+                      <li>
+                        <b>BCryptPasswordEncoder:</b> Algoritmo de cifrado de contraseñas que
+                        se utiliza para proteger las contraseñas de los usuarios.
+                      </li>
+                    </ul>
+                  
+                    <h3>Pruebas de Carga</h3>
+                    <ul>
+                      <li>
+                        <b>JMeter:</b> Herramienta de pruebas de carga de código abierto que
+                        permite simular la carga de usuarios concurrentes en una aplicación
+                        web. Se utiliza para evaluar el rendimiento y la escalabilidad de la
+                        aplicación.
+                      </li>
+                    </ul>
+                  
+                    <h3>Despliegue</h3>
+                    <ul>
+                      <li>
+                        <b>Docker:</b> Plataforma de código abierto que permite empaquetar
+                        aplicaciones y sus dependencias en contenedores. Se utiliza para
+                        facilitar el despliegue y la gestión de la aplicación.
+                      </li>
+                      <li>
+                        <b>Kubernetes:</b> Sistema de código abierto para la orquestación de
+                        contenedores. Se utiliza para automatizar el despliegue, la
+                        escalabilidad y la gestión de la aplicación en contenedores.
+                      </li>
+                    </ul>
+                  
+                    <h3>Otras Herramientas</h3>
+                    <ul>
+                      <li>
+                        <b>Git:</b> Sistema de control de versiones distribuido que se utiliza
+                        para gestionar el código fuente de la aplicación.
+                      </li>
+                      <li>
+                        <b>Maven:</b> Herramienta de gestión de dependencias y construcción de
+                        proyectos para Java.
+                      </li>
+                      <li>
+                        <b>npm (Node Package Manager):</b> Gestor de paquetes para JavaScript.
+                      </li>
+                    </ul>
+                  </section>
+    
+                  <section id="conclusiones">
+                    <h2>10. Conclusiones</h2>
+                    <p>
+                      El desarrollo de "Arrienda tu Finca" ha sido un proceso enriquecedor que
+                      ha permitido aplicar una variedad de tecnologías y metodologías para
+                      construir una aplicación web robusta, escalable y segura. A lo largo de
+                      este proyecto, se han logrado los siguientes objetivos:
+                    </p>
+                  
+                    <ul>
+                      <li>
+                        <b>Digitalización del proceso de arrendamiento:</b> Se ha creado una
+                        plataforma que facilita la interacción entre arrendadores y
+                        arrendatarios, agilizando el proceso de arrendamiento de fincas.
+                      </li>
+                      <li>
+                        <b>Experiencia de usuario mejorada:</b> Se ha desarrollado una
+                        interfaz de usuario intuitiva y fácil de usar, que permite a los
+                        usuarios navegar por la aplicación, buscar fincas, publicar anuncios y
+                        gestionar solicitudes de forma eficiente.
+                      </li>
+                      <li>
+                        <b>Seguridad robusta:</b> Se ha implementado la autenticación JWT para
+                        garantizar la seguridad de la aplicación y proteger la información
+                        sensible de los usuarios.
+                      </li>
+                      <li>
+                        <b>Rendimiento y escalabilidad:</b> Se han realizado pruebas de carga
+                        para asegurar que la aplicación pueda manejar un gran número de usuarios
+                        y transacciones de forma eficiente. Además, se ha utilizado Docker y
+                        Kubernetes para facilitar la escalabilidad y la gestión de la
+                        aplicación en producción.
+                      </li>
+                      <li>
+                        <b>Calidad del software:</b> Se ha implementado una estrategia de
+                        pruebas exhaustiva que incluye pruebas unitarias, pruebas de
+                        integración, pruebas de extremo a extremo y pruebas de carga para
+                        garantizar la calidad del software.
+                      </li>
+                    </ul>
+                  
+                    <p>
+                      "Arrienda tu Finca" es un ejemplo de cómo se pueden combinar tecnologías
+                      modernas como Angular, Spring Boot, JWT, Docker y Kubernetes para
+                      construir aplicaciones web de alta calidad. El proyecto ha permitido
+                      adquirir experiencia en el desarrollo de aplicaciones web, la gestión de
+                      datos, la seguridad y el despliegue en la nube.
+                    </p>
+                  
+                    <h3>Lecciones Aprendidas</h3>
+                    <p>
+                      Durante el desarrollo de "Arrienda tu Finca", se han aprendido
+                      valiosas lecciones que se pueden aplicar en futuros proyectos:
+                    </p>
+                  
+                    <ul>
+                      <li>
+                        <b>Importancia de la planificación:</b> Una planificación adecuada es
+                        esencial para el éxito de un proyecto de software.
+                      </li>
+                      <li>
+                        <b>Beneficios de la arquitectura modular:</b> Una arquitectura modular
+                        facilita el desarrollo, el mantenimiento y la escalabilidad de la
+                        aplicación.
+                      </li>
+                      <li>
+                        <b>Valor de las pruebas:</b> Las pruebas exhaustivas son fundamentales
+                        para garantizar la calidad del software y la satisfacción del usuario.
+                      </li>
+                      <li>
+                        <b>Importancia de la seguridad:</b> La seguridad debe ser una prioridad
+                        desde el inicio del desarrollo.
+                      </li>
+                      <li>
+                        <b>Ventajas del despliegue en la nube:</b> El despliegue en la nube
+                        ofrece flexibilidad, escalabilidad y eficiencia.
+                      </li>
+                    </ul>
+                  
+                    <h3>Trabajo Futuro</h3>
+                    <p>
+                      "Arrienda tu Finca" tiene un gran potencial para seguir creciendo y
+                      evolucionando. En el futuro, se podrían implementar las siguientes
+                      mejoras:
+                    </p>
+                  
+                    <ul>
+                      <li>
+                        <b>Nuevas funcionalidades:</b> Añadir nuevas funcionalidades, como un
+                        sistema de mensajería interna, un sistema de pagos en línea, la
+                        integración con redes sociales, la posibilidad de realizar reservas
+                        directas, etc.
+                      </li>
+                      <li>
+                        <b>Mejoras en la interfaz de usuario:</b>  Mejorar la interfaz de
+                        usuario para que sea aún más intuitiva y fácil de usar.
+                      </li>
+                      <li>
+                        <b>Optimización del rendimiento:</b>  Optimizar el rendimiento de la
+                        aplicación para que pueda manejar un mayor volumen de usuarios y
+                        transacciones.
+                      </li>
+                      <li>
+                        <b>Integración con otras plataformas:</b> Integrar la aplicación con
+                        otras plataformas, como Google Maps, para proporcionar una mejor
+                        experiencia de usuario.
+                      </li>
+                      <li>
+                        <b>Internacionalización:</b>  Adaptar la aplicación a diferentes
+                        idiomas y regiones.
+                      </li>
+                    </ul>
+                  
+                    <p>
+                      En general, el desarrollo de "Arrienda tu Finca" ha sido una
+                      experiencia exitosa que ha permitido crear una aplicación web funcional,
+                      segura y escalable. El proyecto ha sentado las bases para una plataforma
+                      que puede seguir creciendo y mejorando para satisfacer las necesidades de
+                      los usuarios en el futuro.
+                    </p>
+                  </section>
+    
+            </main>
+    
+            <footer>
+                <p>&copy; 2024 Arrienda tu Finca</p>
+            </footer>
+    
+            <hr>
+    
+        </div>
+    </section>
+    
+    </body>
+    </html>
